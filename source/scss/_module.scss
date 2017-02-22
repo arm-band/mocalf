@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+// ============================================= *
+//                                               *
+// モジュール                                    *
+//                                               *
+// ============================================= */
+
+$set-prefix: -webkit-, -moz-, -ms-, -o-, ''; //ベンダープレフィックスの配列 //''はプレフィックスなし出力用 //mixin用
+
+@mixin PropertySetPrefix($name, $value) {
+	@each $prefix in $set-prefix {
+		#{$prefix}#{$name}: $value;
+	}
+}
+
+@mixin ValueSetPrefix($name, $value) {
+	@each $prefix in $set-prefix {
+		#{$name}: #{$prefix}$value;
+	}
+}
+
+//trasition
+@mixin transitionSet() {
+    @include PropertySetPrefix(transition, all 0.3s ease);
+}

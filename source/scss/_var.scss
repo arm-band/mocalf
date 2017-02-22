@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+// ============================================= *
+//                                               *
+// 変数宣言                                      *
+//                                               *
+// ============================================= */
+$color: #333;
+$bg-color: #fff;
+
+$main-color: #1586BF; //blue
+$main-color2: #5FAFD7; //sky blue
+
+$accent-color: #CD384B; //red
+
+$link-color: #58C7AD; //green
+$link-v-color: darken(#58C7AD, 15%);
+$link-ha-color: lighten(#58C7AD, 15%);
+
+//now unuse. bat set property because of those often use.
+$header-margin: 80px;
+$line-height: 1.6;
+$font-size: 16px;
