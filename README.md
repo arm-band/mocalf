@@ -23,6 +23,8 @@ mocalf.jsは、モーダルウインドウでFlexboxによる表形式のカレ�
 
 ## Demo
 
+<a href="https://arm-band.github.io/mocalf/">Demo page</a>
+
 ## Usage
 
 1. ダウンロードしたzipを解凍し、js、cssをHTMLに読み込ませてください（jQueryは必須なので、jQueryも読み込ませてください。）
