@@ -1,7 +1,7 @@
 /**
  * mocalf.js
  *
- * @version: 1.1.0
+ * @version: 1.2.0
  * url: 
  *
  * Copyright (c) 2016 Arm=band
@@ -99,13 +99,11 @@
                         if (dataLen > 0) {
                             if (dataLen === params.month) { //パラメータで指定された月の数とデータの月の長さが等しいなら、処理続行
                                 data = objZeroPadding(data); //0パディング
-                                $(data).each(function (key, val) {
-                                    for (var i in val) {
-                                        var body = genBody(i, val);
-                                        var ul = genCalendar(i, val[i]);
-                                        body.append(ul);
-                                        content.append(body);
-                                    }
+                                $.each(data, function (key, val) {
+                                    var body = genBody(key, data);
+                                    var ul = genCalendar(key, val);
+                                    body.append(ul);
+                                    content.append(body);
                                 });
                             } else {
                                 errText = errMsg03;
