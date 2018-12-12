@@ -1,7 +1,7 @@
 /**
  * mocalf.js
  *
- * @version: 1.0.0
+ * @version: 1.1.0
  * url: 
  *
  * Copyright (c) 2016 Arm=band
@@ -83,7 +83,7 @@
                 var errMsg02 = "データが空です。";
                 var errMsg03 = "データとパラメータの月の数が一致しません。";
                 var errMsg99 = "データが読み込めませんでした。";
-                
+
                 var content = $("<div/>");
                 content.addClass("calendar_content");
 
@@ -91,13 +91,14 @@
                 var errText = "";
                 //データ読み込んで処理。メイン部分
                 $.getJSON(params.data, {ts: new Date().getTime()}, function (data) { //$.postだと古い環境ではjsonと認識されず、文字列として判定するっぽい。hashLengthも効かず、その後の処理も不可能になるのでgetJSONでタイムスタンプ付与してキャッシュさせないようにする
-                    
-                    var parseFlg = $.isPlainObject(data);　//オブジェクト型かどうかチェック
+
+                    var parseFlg = $.isPlainObject(data); //オブジェクト型かどうかチェック
 
                     if(parseFlg === true) { //型チェック成功ならば処理続行
                         var dataLen = hashLength(data);
                         if (dataLen > 0) {
                             if (dataLen === params.month) { //パラメータで指定された月の数とデータの月の長さが等しいなら、処理続行
+                                data = objZeroPadding(data); //0パディング
                                 $(data).each(function (key, val) {
                                     for (var i in val) {
                                         var body = genBody(i, val);
@@ -144,6 +145,7 @@
                 var ul = $("<ul/>");
                 ul.addClass("month");
                 var li = $("<li/>");
+                key = keyZeroCutting(key); //1ケタの月は表示の際に0をカット(スペースパディング)
                 var ym = key.slice(0, 4) + "年" + key.slice(4) + "月";
                 li.text(ym);
                 ul.append(li);
@@ -328,7 +330,7 @@
                 obj.addClass("modalcal_hide");
                 return false;
             });
-            
+
             //エラー処理
             function errPrc(txt) {
                 var errDOM = $("<p/>");
@@ -338,6 +340,36 @@
 
             return false;
         });
+
+        //キーの月のケタが不揃いな場合、0パディングをして6ケタに合わせる
+        function objZeroPadding(data) {
+            $.each(data, function (key, val) {
+                if(key.length !== 6) {
+                    if(key.length === 5) {
+                        var newKey = key.slice(0, 4) + "0" + key.slice(4);
+                        data[newKey] = val; //0パディングしたキーで値を再代入
+                        delete data[key]; //元のキーを削除
+                    }
+                    else {
+                        delete data[key]; //ケタ数が6でも5でもないものは処理できないので削除
+                    }
+                }
+            });
+            return data;
+        }
+
+        //表示の際に1ケタの月は頭の0を削除
+        function keyZeroCutting(key) {
+            var monthVal = parseInt(key.slice(4));
+            var str = "";
+            if(10 > monthVal) {
+                str = key.slice(0, 4) + " " + String(monthVal);
+            }
+            else {
+                str = key;
+            }
+            return str;
+        }
 
         //連想配列の要素数を取得する関数
         function hashLength(array) {
